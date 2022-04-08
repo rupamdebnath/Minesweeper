@@ -1,26 +1,44 @@
+#pragma once
 #include <SFML/Graphics.hpp>
-#include<iostream>
+#include <time.h>
+#include <iostream>
+#include "DrawBoard.h"
+
+using namespace sf;
 using namespace std;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+    //Seed for Random generator for marking bombs
+    srand(time(0));
+
+    RenderWindow window(VideoMode(390, 500), "Minesweeper!");
+    DrawBoard *board = new DrawBoard();
 
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
+        Vector2i pos = Mouse::getPosition(window);
+        int x = pos.x / 100;
+        int y = pos.y / 100;
+
+        Event e;
+        while (window.pollEvent(e))
         {
-            if (event.type == sf::Event::Closed)
+            if (e.type == Event::Closed)
                 window.close();
+
         }
 
-        window.clear();
-        window.draw(shape);
+        window.clear(Color::White);
+
+        
+        
+        //window.draw(img);
+
+        board->createBoard(window);
+
         window.display();
     }
-
+    delete board;
     return 0;
 }
