@@ -18,15 +18,20 @@ int main()
     while (window.isOpen())
     {
         Vector2i pos = Mouse::getPosition(window);
-        int x = pos.x / 100;
-        int y = pos.y / 100;
-
+        int x = pos.x / 32;
+        int y = pos.y / 32;
+        x++;
+        y++;
         Event e;
         while (window.pollEvent(e))
         {
             if (e.type == Event::Closed)
                 window.close();
-
+            if (e.type == Event::MouseButtonPressed)
+            {
+                cout << x << endl;
+                cout << y << endl;
+            }
         }
 
         window.clear(Color::White);
