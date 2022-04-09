@@ -13,35 +13,36 @@ int main()
     srand(time(0));
 
     RenderWindow window(VideoMode(390, 500), "Minesweeper!");
-    DrawBoard *board = new DrawBoard();
+    DrawBoard *board = new DrawBoard(window);
 
     while (window.isOpen())
     {
-        Vector2i pos = Mouse::getPosition(window);
-        int x = pos.x / 32;
-        int y = pos.y / 32;
-        x++;
-        y++;
+
+        int X=0, Y=0;
+
         Event e;
+
         while (window.pollEvent(e))
         {
             if (e.type == Event::Closed)
                 window.close();
-            if (e.type == Event::MouseButtonPressed)
-            {
-                cout << x << endl;
-                cout << y << endl;
-            }
+        }
+        if (e.type == Event::MouseButtonPressed)
+        {
+            Vector2f mposition(e.mouseButton.x, e.mouseButton.y);
+            X = mposition.x / 32;
+            Y = mposition.y / 32;
+            X++;
+            Y++;
+            cout << X << endl;
+            cout << Y << endl;
         }
 
         window.clear(Color::White);
 
+        board->createBoard();
         
-        
-        //window.draw(img);
-
-        board->createBoard(window);
-
+        board->revealCell(X, Y);
         window.display();
     }
     delete board;
