@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <time.h>
 #include <iostream>
 #include "DrawBoard.h"
 
@@ -9,15 +8,11 @@ using namespace std;
 
 int main()
 {
-    //Seed for Random generator for marking bombs
-    srand(time(0));
-
     RenderWindow window(VideoMode(390, 500), "Minesweeper!");
     DrawBoard *board = new DrawBoard(window);
-
+    bool firstclick = true;
     while (window.isOpen())
     {
-
         int X=0, Y=0;
 
         Event e;
@@ -34,17 +29,21 @@ int main()
             Y = mposition.y / 32;
             X++;
             Y++;
-            cout << X << endl;
-            cout << Y << endl;
+            if (firstclick)
+            {
+                board->placeBombs(X, Y);
+                firstclick = false;
+            }
         }
 
         window.clear(Color::White);
-
         board->createBoard();
-        
         board->revealCell(X, Y);
+        
         window.display();
+        cout << "No of bombs randomly placed this round:" << board->getnumberoFBombs() << endl;
     }
+    
     delete board;
     return 0;
 }

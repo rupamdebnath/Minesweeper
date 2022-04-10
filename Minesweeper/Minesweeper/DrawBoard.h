@@ -11,6 +11,7 @@ class DrawBoard
 	int grid[12][12];
 	Texture t;
 	RenderWindow* Vwindow;
+	int numberoFBombs;
 	
 	public:
 		DrawBoard(RenderWindow& Vwindow);
@@ -19,5 +20,7 @@ class DrawBoard
 		int getRows();
 		int getColumns();
 		void revealCell(int x, int y);
+		void placeBombs(int x, int y);
+		int getnumberoFBombs();
 };
 
