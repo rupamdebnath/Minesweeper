@@ -41,7 +41,8 @@ int main()
         board->revealCell(X, Y);
         
         window.display();
-        cout << "No of bombs randomly placed this round:" << board->getnumberoFBombs() << endl;
+
+        /*cout << "No of bombs randomly placed this round:" << board->getnumberoFBombs() << endl;*/
     }
     
     delete board;

@@ -62,25 +62,17 @@ void DrawBoard::revealCell(int x, int y)
 void DrawBoard::placeBombs(int x, int y)
 {
 	Random r; 
-	int count = 0;
-	int nBombs = r.random(20, 30);
-	
+	int count = 0;	
 	for (int i = 0; i < getRows(); i++)
 	{
 		for (int j = 0; j < getColumns(); j++)
 		{
-			if ((x - 1) == i && (y - 1) == j)
+			int ran = r.random(0, 5);
+			if (ran==5)
 			{
-				continue;
-			}
-			else
-			{
-				grid[i][j] = r.random(0, 5 ) == 1? 9 : 10;
-				count++;
+				grid[i][j] = 9;
 			}
 		}
-		if (count == nBombs)
-			break;
 	}
 	int noofbombs = 0;
 	for (int i = 0; i < getRows(); i++)
@@ -93,7 +85,6 @@ void DrawBoard::placeBombs(int x, int y)
 			}
 		}
 	}
-
 	numberoFBombs = noofbombs;
 }
 
