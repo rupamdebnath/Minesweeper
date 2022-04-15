@@ -9,9 +9,10 @@ using namespace std;
 class DrawBoard
 {
 	int grid[12][12];
+	int currentGrid[12][12];
 	Texture t;
 	RenderWindow* Vwindow;
-	int numberoFBombs;
+	int numberoFBombs;	
 	
 	public:
 		DrawBoard(RenderWindow& Vwindow);
@@ -21,6 +22,8 @@ class DrawBoard
 		int getColumns();
 		void revealCell(int x, int y);
 		void placeBombs(int x, int y);
-		int getnumberoFBombs();
+		void placenumbers();
+		int getnumberOfBombs();
+
 };
 

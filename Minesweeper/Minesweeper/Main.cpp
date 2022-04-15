@@ -13,6 +13,8 @@ int main()
     bool firstclick = true;
     while (window.isOpen())
     {
+
+
         int X=0, Y=0;
 
         Event e;
@@ -27,22 +29,25 @@ int main()
             Vector2f mposition(e.mouseButton.x, e.mouseButton.y);
             X = mposition.x / 32;
             Y = mposition.y / 32;
-            X++;
-            Y++;
             if (firstclick)
             {
                 board->placeBombs(X, Y);
+                board->placenumbers();
                 firstclick = false;
+            }
+            else
+            {                
+                board->revealCell(X, Y);
             }
         }
 
-        window.clear(Color::White);
-        board->createBoard();
-        board->revealCell(X, Y);
+       window.clear(Color::White);
+       board->createBoard();
         
+       /* board->revealCell(X, Y);*/
         window.display();
 
-        /*cout << "No of bombs randomly placed this round:" << board->getnumberoFBombs() << endl;*/
+        //cout << "No of bombs randomly placed this round:" << board->getnumberOfBombs() << endl;
     }
     
     delete board;

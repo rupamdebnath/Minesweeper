@@ -5,15 +5,16 @@
 DrawBoard::DrawBoard(RenderWindow &Vwindow)
 {
 	this->Vwindow = &Vwindow;
+	t.loadFromFile("images/tiles.jpg");
+	Sprite img(t);
 	for (int i = 0; i < getRows(); i++)
 	{
 		for (int j = 0; j < getColumns(); j++)
 		{
-			grid[i][j] = 10;
+			currentGrid[i][j] = 10;			
 		}
-	}
+	}	
 }
-
 
 void DrawBoard::createBoard()
 {
@@ -24,14 +25,13 @@ void DrawBoard::createBoard()
 	{
 		for (int j = 0; j < getColumns(); j++)
 		{
-			//getting the specific texture from the sprite size 32*384 pixels		
-			img.setTextureRect(IntRect(32 * grid[i][j], 0, 32, 32));
+			//getting the specific texture from the sprite size 384*32 pixels		
+			img.setTextureRect(IntRect(32 * currentGrid[i][j], 0, 32, 32));
 
 			img.setPosition(i * 32, j * 32);
-			Vwindow->draw(img);
+			      Vwindow->draw(img);
 		}
-	}
-	
+	}	
 }
 
 int DrawBoard::getRows()
@@ -48,30 +48,28 @@ int DrawBoard::getColumns()
 
 void DrawBoard::revealCell(int x, int y)
 {
-	Texture rt;
-	rt.loadFromFile("images/tiles.jpg");
-	Sprite reveal(rt);
-
-	reveal.setTextureRect(IntRect(0, 0, 32, 32));
-
-	reveal.setPosition((x-1) * 32, (y-1) * 32);
-
-	Vwindow->draw(reveal);
+	currentGrid[x][y] = grid[y][x];
 }
  
 void DrawBoard::placeBombs(int x, int y)
-{
+{	
 	Random r; 
-	int count = 0;	
+	int count = 0;
+	int ran = 0;
 	for (int i = 0; i < getRows(); i++)
 	{
 		for (int j = 0; j < getColumns(); j++)
 		{
-			int ran = r.random(0, 5);
-			if (ran==5)
+			ran = r.random(0, 3);
+			//cout << ran << endl;
+			if (ran == 3)
 			{
-				grid[i][j] = 9;
+				if (i != x && j != y)
+				{					
+					grid[i][j] = 9;
+				}
 			}
+			else grid[i][j] = 0;
 		}
 	}
 	int noofbombs = 0;
@@ -87,8 +85,43 @@ void DrawBoard::placeBombs(int x, int y)
 	}
 	numberoFBombs = noofbombs;
 }
+void DrawBoard::placenumbers()
+{
+	int n;
+	for (int i = 0; i < getRows(); i++)
+	{
+		for (int j = 0; j < getColumns(); j++)
+		{
+			n = 0;
+			if (grid[i][j] == 9) continue;
+			if (grid[i + 1][j] == 9) n++;
+			if (grid[i][j + 1] == 9) n++;
+			if (i - 1 >= 0)
+			{			
+				if (grid[i - 1][j] == 9)
+					n++;
+				if (grid[i - 1][j + 1] == 9) 
+					n++;
+			}
+			if (j - 1 >= 0)
+			{
+				if (grid[i][j - 1] == 9)
+					n++;
+				if (grid[i + 1][j - 1] == 9) 
+					n++;
+			}
+			if (grid[i + 1][j + 1] == 9) n++;
+			if (i - 1 >= 0 && j - 1 >= 0)
+			{
+				if (grid[i - 1][j - 1] == 9)
+					n++;
+			}
+			grid[i][j] = n;
+		}
+	}
+}
 
-int DrawBoard::getnumberoFBombs()
+int DrawBoard::getnumberOfBombs()
 {
 	return numberoFBombs;
 }
