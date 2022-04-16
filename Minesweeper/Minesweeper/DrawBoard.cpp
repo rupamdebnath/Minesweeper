@@ -49,6 +49,36 @@ int DrawBoard::getColumns()
 void DrawBoard::revealCell(int x, int y)
 {
 	currentGrid[x][y] = grid[y][x];
+	cout << currentGrid[x][y] << endl;
+	if (currentGrid[x][y] == 0)
+	{
+		currentGrid[x + 1][y] = grid[y+1][x];
+		currentGrid[x][y + 1] = grid[y][x+1];
+
+		currentGrid[x - 1][y] = grid[y - 1][x];
+		currentGrid[x - 1][y + 1] = grid[y - 1][x + 1];
+
+		currentGrid[x][y - 1] = grid[y][x - 1];
+		currentGrid[x + 1][y - 1] = grid[y + 1][x - 1];
+
+		currentGrid[x + 1][y + 1] = grid[y + 1][x + 1];
+
+		currentGrid[x - 1][y - 1] = grid[y - 1][x - 1];		
+	}
+}
+
+void DrawBoard::revealAllBombCells()
+{
+	for (int i = 0; i < getRows(); i++)
+	{
+		for (int j = 0; j < getColumns(); j++)
+		{
+			if (grid[i][j] == 9)
+			{
+				revealCell(j,i);
+			}
+		}
+	}
 }
  
 void DrawBoard::placeBombs(int x, int y)
@@ -61,10 +91,9 @@ void DrawBoard::placeBombs(int x, int y)
 		for (int j = 0; j < getColumns(); j++)
 		{
 			ran = r.random(0, 3);
-			//cout << ran << endl;
 			if (ran == 3)
 			{
-				if (i != x && j != y)
+				if (i != y && j != x)
 				{					
 					grid[i][j] = 9;
 				}
@@ -125,3 +154,9 @@ int DrawBoard::getnumberOfBombs()
 {
 	return numberoFBombs;
 }
+
+bool DrawBoard::isBombInCell(int x, int y)
+{
+	return (currentGrid[x][y] == 9);
+}
+

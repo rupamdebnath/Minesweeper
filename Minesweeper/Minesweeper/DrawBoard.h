@@ -21,9 +21,12 @@ class DrawBoard
 		int getRows();
 		int getColumns();
 		void revealCell(int x, int y);
+		void revealAllBombCells();
 		void placeBombs(int x, int y);
 		void placenumbers();
 		int getnumberOfBombs();
+
+		bool isBombInCell(int x, int y);
 
 };
 
