@@ -9,6 +9,10 @@ using namespace std;
 int main()
 {
     Reset:
+    Texture emoji;
+
+    emoji.loadFromFile("images/inplay.png");    
+
     Font font;
     font.loadFromFile("Fonts/Myfont.ttf");
     Text text, bombText, bombvalue;
@@ -20,9 +24,9 @@ int main()
     bombText.setString("No of Bombs remaining:");
     bombText.setPosition(10, 400);
     bombText.setScale(0.5, 0.5);
+
     bombvalue.setFont(font);
-    bombvalue.setFillColor(sf::Color::Black);
-    
+    bombvalue.setFillColor(sf::Color::Black);    
     bombvalue.setPosition(200, 400);
     bombvalue.setScale(0.5, 0.5);
     RenderWindow window(VideoMode(390, 500), "Minesweeper!");
@@ -59,17 +63,21 @@ int main()
                 cout << e.mouseButton.x << " " << e.mouseButton.y << endl;
                 if (board->isBombInCell(X, Y))
                 {
+                    emoji.loadFromFile("images/lose.png");                    
                     board->revealAllBombCells();
                     text.setString("Oops! Stepped on a bomb! You have lost!");
                     text.setPosition(20, 430);                     
                 }
             }
         }
-
+        Sprite smiley(emoji);
+        smiley.setPosition(250, 400);
+        smiley.setScale(2, 2);
         window.clear(Color::White);
         board->createBoard();
         window.draw(bombText);
         window.draw(bombvalue);
+        window.draw(smiley);
         window.draw(text);
         window.display();
         if (board->isBombInCell(X, Y))
