@@ -33,8 +33,7 @@ void DrawBoard::createBoard()
 			Vwindow->draw(img);
 			
 		}
-	}	
-	//Vwindow->draw(bombText);
+	}		
 }
 
 int DrawBoard::getRows()
@@ -51,22 +50,24 @@ int DrawBoard::getColumns()
 
 void DrawBoard::revealCell(int x, int y)
 {
-	currentGrid[x][y] = grid[y][x];
-	//cout << currentGrid[x][y] << endl;
+	currentGrid[x][y] = grid[x][y];
+	cout << x << " " << y << endl;
 	if (currentGrid[x][y] == 0)
 	{
-		currentGrid[x + 1][y] = grid[y+1][x];
-		currentGrid[x][y + 1] = grid[y][x+1];
+		if (x < 12 && y < 12 && x > 0 && y > 0)
+		{
+			currentGrid[x + 1][y] = grid[x + 1][y];
+			currentGrid[x][y + 1] = grid[x][y + 1];
+			currentGrid[x - 1][y] = grid[x - 1][y];
+			currentGrid[x - 1][y - 1] = grid[x - 1][y - 1];
+			currentGrid[x - 1][y + 1] = grid[x - 1][y + 1];
+			currentGrid[x][y - 1] = grid[x][y - 1];
+			currentGrid[x + 1][y - 1] = grid[x + 1][y - 1];
 
-		currentGrid[x - 1][y] = grid[y - 1][x];
-		currentGrid[x - 1][y + 1] = grid[y - 1][x + 1];
+			currentGrid[x + 1][y + 1] = grid[x + 1][y + 1];
 
-		currentGrid[x][y - 1] = grid[y][x - 1];
-		currentGrid[x + 1][y - 1] = grid[y + 1][x - 1];
-
-		currentGrid[x + 1][y + 1] = grid[y + 1][x + 1];
-
-		currentGrid[x - 1][y - 1] = grid[y - 1][x - 1];		
+			currentGrid[x - 1][y - 1] = grid[x - 1][y - 1];
+		}
 	}
 }
 
@@ -78,7 +79,7 @@ void DrawBoard::revealAllBombCells()
 		{
 			if (grid[i][j] == 9)
 			{
-				revealCell(j,i);
+				revealCell(i,j);
 			}
 		}
 	}
@@ -93,8 +94,8 @@ void DrawBoard::placeBombs(int x, int y)
 	{
 		for (int j = 0; j < getColumns(); j++)
 		{
-			ran = r.random(0, 3);
-			if (ran == 3)
+			ran = r.random(0, 5);
+			if (ran == 5)
 			{
 				if (i != y && j != x)
 				{					
@@ -129,24 +130,19 @@ void DrawBoard::placenumbers()
 			if (grid[i + 1][j] == 9) n++;
 			if (grid[i][j + 1] == 9) n++;
 			if (i - 1 >= 0)
-			{			
-				if (grid[i - 1][j] == 9)
-					n++;
-				if (grid[i - 1][j + 1] == 9) 
-					n++;
+			{
+				if (grid[i - 1][j] == 9) n++;
+				if (grid[i - 1][j + 1] == 9) n++;
 			}
 			if (j - 1 >= 0)
 			{
-				if (grid[i][j - 1] == 9)
-					n++;
-				if (grid[i + 1][j - 1] == 9) 
-					n++;
+				if (grid[i][j - 1] == 9) n++;
+				if (grid[i + 1][j - 1] == 9) n++;
 			}
 			if (grid[i + 1][j + 1] == 9) n++;
 			if (i - 1 >= 0 && j - 1 >= 0)
 			{
-				if (grid[i - 1][j - 1] == 9)
-					n++;
+				if (grid[i - 1][j - 1] == 9) n++;
 			}
 			grid[i][j] = n;
 		}
