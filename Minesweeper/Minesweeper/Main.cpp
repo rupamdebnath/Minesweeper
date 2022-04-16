@@ -31,7 +31,9 @@ int main()
     bombvalue.setScale(0.5, 0.5);
     RenderWindow window(VideoMode(390, 500), "Minesweeper!");
     DrawBoard *board = new DrawBoard(window);
+    window.setKeyRepeatEnabled(false);
     bool firstclick = true;
+    bool rightclickpressed = false;
     while (window.isOpen())
     {        
         int X=0, Y=0;
@@ -40,35 +42,43 @@ int main()
 
         while (window.pollEvent(e))
         {
+            //rightclickpressed == false;
             if (e.type == Event::Closed)
                 window.close();
         }
-        if (e.type == Event::MouseButtonPressed)
-        {
+        if (e.type == Event::MouseButtonPressed )
+        {            
             Vector2f mposition(e.mouseButton.x, e.mouseButton.y);
-
+            
             X = mposition.x / 32;
             Y = mposition.y / 32;
-
-            if (firstclick)
+            if (e.key.code == Mouse::Left)
             {
-                board->placeBombs(X, Y);
-                board->placenumbers();
-                bombvalue.setString(to_string(board->getnumberOfBombs()));
-                firstclick = false;
-            }
-            else
-            {                
-                board->revealCell(X, Y);
-                cout << e.mouseButton.x << " " << e.mouseButton.y << endl;
-                if (board->isBombInCell(X, Y))
+                if (firstclick)
                 {
-                    emoji.loadFromFile("images/lose.png");                    
-                    board->revealAllBombCells();
-                    text.setString("Oops! Stepped on a bomb! You have lost!");
-                    text.setPosition(20, 430);                     
+                    board->placeBombs(X, Y);
+                    board->placenumbers();
+                    bombvalue.setString(to_string(board->getnumberOfBombs()));
+                    firstclick = false;
+                }
+                else
+                {
+                    board->revealCell(X, Y);
+                    //cout << e.mouseButton.x << " " << e.mouseButton.y << endl;
+                    if (board->isBombInCell(X, Y))
+                    {
+                        emoji.loadFromFile("images/lose.png");
+                        board->revealAllBombCells();
+                        text.setString("Oops! Stepped on a bomb! You have lost!");
+                        text.setPosition(20, 430);
+                    }
                 }
             }
+            if (e.key.code == Mouse::Right)
+            {
+                board->SetFlag(X, Y);               
+            }
+            bombvalue.setString(to_string(board->getnumberOfBombs()));
         }
         Sprite smiley(emoji);
         smiley.setPosition(250, 400);

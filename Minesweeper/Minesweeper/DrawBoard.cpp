@@ -163,3 +163,16 @@ bool DrawBoard::isBombInCell(int x, int y)
 	return (currentGrid[x][y] == 9);
 }
 
+void DrawBoard::SetFlag(int x, int y)
+{
+	if (currentGrid[x][y] == 11)
+	{
+		currentGrid[x][y] = 10;
+		numberoFBombs++;
+	}
+	else
+	{
+		currentGrid[x][y] = 11;
+		numberoFBombs--;
+	}
+}

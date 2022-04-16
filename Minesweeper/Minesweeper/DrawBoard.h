@@ -28,5 +28,7 @@ class DrawBoard
 
 		bool isBombInCell(int x, int y);
 
+		void SetFlag(int x, int y);
+
 };
 
