@@ -21,33 +21,23 @@ int main()
     text.setScale(0.5,0.5);
     bombText.setFont(font);
     bombText.setFillColor(sf::Color::Black);
-    bombText.setString("No of Bombs remaining:");
+    bombText.setString("Left Click to place bombs\nNo of Bombs remaining:");
     bombText.setPosition(10, 400);
     bombText.setScale(0.5, 0.5);
 
     bombvalue.setFont(font);
     bombvalue.setFillColor(sf::Color::Black);    
-    bombvalue.setPosition(200, 400);
+    bombvalue.setPosition(200, 420);
     bombvalue.setScale(0.5, 0.5);
     RenderWindow window(VideoMode(390, 500), "Minesweeper!");
     DrawBoard *board = new DrawBoard(window);
-    window.setKeyRepeatEnabled(false);
+    //window.setKeyRepeatEnabled(false);
     bool firstclick = true;    
     while (window.isOpen())
     {        
         int X=0, Y=0;
 
         Event e;
-        //if (e.key.code == Mouse::Left)
-        //{
-        //    if (firstclick)
-        //    {
-        //        board->placeBombs(X, Y);
-        //        board->placenumbers();
-        //        bombvalue.setString(to_string(board->getnumberOfBombs()));
-        //        firstclick = false;
-        //    }
-        //}
         while (window.pollEvent(e))
         {
             if (e.type == Event::Closed)
@@ -77,17 +67,17 @@ int main()
                             emoji.loadFromFile("images/lose.png");
                             board->revealAllBombCells();
                             text.setString("Oops! Stepped on a bomb! You have lost!");
-                            text.setPosition(20, 430);
+                            text.setPosition(20, 450);
                         }
                     }
                 }
-                bombvalue.setString(to_string(board->getnumberOfBombs()));
+                
 
                 if (e.key.code == Mouse::Right)
                 {
                     board->SetFlag(X, Y);
                 }                
-            }
+            }   bombvalue.setString(to_string(board->getnumberOfBombs()));
         }       
         
         Sprite smiley(emoji);

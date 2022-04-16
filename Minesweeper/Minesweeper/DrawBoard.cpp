@@ -54,7 +54,7 @@ void DrawBoard::revealCell(int x, int y)
 	cout << x << " " << y << endl;
 	if (currentGrid[x][y] == 0)
 	{
-		if (x < 12 && y < 12 && x > 0 && y > 0)
+		if (x+1 < 12 && y+1 < 12 && x-1 >= 0 && y-1 >= 0)
 		{
 			currentGrid[x + 1][y] = grid[x + 1][y];
 			currentGrid[x][y + 1] = grid[x][y + 1];
@@ -97,7 +97,7 @@ void DrawBoard::placeBombs(int x, int y)
 			ran = r.random(0, 5);
 			if (ran == 5)
 			{
-				if (i != y && j != x)
+				if (i != x && j != y)
 				{					
 					grid[i][j] = 9;
 				}
@@ -161,12 +161,12 @@ bool DrawBoard::isBombInCell(int x, int y)
 
 void DrawBoard::SetFlag(int x, int y)
 {
-	if (currentGrid[x][y] == 11)
+	if (currentGrid[x][y] == 11 && currentGrid[x][y] != 10)
 	{
 		currentGrid[x][y] = 10;
 		numberoFBombs++;
 	}
-	else
+	else if (currentGrid[x][y] != 11 && currentGrid[x][y] == 10)
 	{
 		currentGrid[x][y] = 11;
 		numberoFBombs--;
