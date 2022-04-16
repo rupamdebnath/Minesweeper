@@ -9,13 +9,29 @@ using namespace std;
 int main()
 {
     Reset:
+    Font font;
+    font.loadFromFile("Fonts/Myfont.ttf");
+    Text text, bombText, bombvalue;
+    text.setFont(font);
+    text.setFillColor(sf::Color::Red);
+    text.setScale(0.5,0.5);
+    bombText.setFont(font);
+    bombText.setFillColor(sf::Color::Black);
+    bombText.setString("No of Bombs remaining:");
+    bombText.setPosition(10, 400);
+    bombText.setScale(0.5, 0.5);
+    bombvalue.setFont(font);
+    bombvalue.setFillColor(sf::Color::Black);
+    
+    bombvalue.setPosition(200, 400);
+    bombvalue.setScale(0.5, 0.5);
     RenderWindow window(VideoMode(390, 500), "Minesweeper!");
     DrawBoard *board = new DrawBoard(window);
     bool firstclick = true;
     while (window.isOpen())
-    {
+    {        
         int X=0, Y=0;
-
+        
         Event e;
 
         while (window.pollEvent(e))
@@ -34,25 +50,31 @@ int main()
             {
                 board->placeBombs(X, Y);
                 board->placenumbers();
+                bombvalue.setString(to_string(board->getnumberOfBombs()));
                 firstclick = false;
             }
             else
             {                
                 board->revealCell(X, Y);
+                cout << e.mouseButton.x << " " << e.mouseButton.y << endl;
                 if (board->isBombInCell(X, Y))
+                {
                     board->revealAllBombCells();
+                    text.setString("Oops! Stepped on a bomb! You have lost!");
+                    text.setPosition(20, 430);                     
+                }
             }
         }
 
-       window.clear(Color::White);
-       board->createBoard();
-       
+        window.clear(Color::White);
+        board->createBoard();
+        window.draw(bombText);
+        window.draw(bombvalue);
+        window.draw(text);
         window.display();
         if (board->isBombInCell(X, Y))
-        {
-            board->revealAllBombCells();           
-            system("pause");
-            cout << "Busted, clicked on a bomb! You have lost!" << endl;
+        {            
+            system("pause");            
             window.clear();
             delete board;
             goto Reset;

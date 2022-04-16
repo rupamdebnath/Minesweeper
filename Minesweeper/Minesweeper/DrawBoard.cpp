@@ -18,9 +18,10 @@ DrawBoard::DrawBoard(RenderWindow &Vwindow)
 
 void DrawBoard::createBoard()
 {
+	
 	t.loadFromFile("images/tiles.jpg");
 	Sprite img(t);
-	
+
 	for (int i = 0; i < getRows(); i++)
 	{
 		for (int j = 0; j < getColumns(); j++)
@@ -29,9 +30,11 @@ void DrawBoard::createBoard()
 			img.setTextureRect(IntRect(32 * currentGrid[i][j], 0, 32, 32));
 
 			img.setPosition(i * 32, j * 32);
-			      Vwindow->draw(img);
+			Vwindow->draw(img);
+			
 		}
 	}	
+	//Vwindow->draw(bombText);
 }
 
 int DrawBoard::getRows()
@@ -49,7 +52,7 @@ int DrawBoard::getColumns()
 void DrawBoard::revealCell(int x, int y)
 {
 	currentGrid[x][y] = grid[y][x];
-	cout << currentGrid[x][y] << endl;
+	//cout << currentGrid[x][y] << endl;
 	if (currentGrid[x][y] == 0)
 	{
 		currentGrid[x + 1][y] = grid[y+1][x];
