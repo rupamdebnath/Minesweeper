@@ -32,10 +32,6 @@ int main()
 
             if (firstclick)
             {
-                //cout << e.mouseButton.x << endl;
-                //cout << e.mouseButton.y << endl;
-                //cout << X << endl;
-                //cout << Y << endl;
                 board->placeBombs(X, Y);
                 board->placenumbers();
                 firstclick = false;
