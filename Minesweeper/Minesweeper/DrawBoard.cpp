@@ -50,8 +50,7 @@ int DrawBoard::getColumns()
 
 void DrawBoard::revealCell(int x, int y)
 {
-	currentGrid[x][y] = grid[x][y];
-	cout << x << " " << y << endl;
+	currentGrid[x][y] = grid[x][y];	
 	if (currentGrid[x][y] == 0)
 	{
 		if (x+1 < 12 && y+1 < 12 && x-1 >= 0 && y-1 >= 0)
@@ -127,19 +126,34 @@ void DrawBoard::placenumbers()
 		{
 			n = 0;
 			if (grid[i][j] == 9) continue;
-			if (grid[i + 1][j] == 9) n++;
-			if (grid[i][j + 1] == 9) n++;
+			if (i + 1 < 12)
+			{
+				if (grid[i + 1][j] == 9) n++;
+			}
+			if (j + 1 < 12)
+			{
+				if (grid[i][j + 1] == 9) n++;
+			}
 			if (i - 1 >= 0)
 			{
 				if (grid[i - 1][j] == 9) n++;
-				if (grid[i - 1][j + 1] == 9) n++;
+				if (j + 1 < 12)
+				{
+					if (grid[i - 1][j + 1] == 9) n++;
+				}
 			}
 			if (j - 1 >= 0)
 			{
 				if (grid[i][j - 1] == 9) n++;
-				if (grid[i + 1][j - 1] == 9) n++;
+				if (i + 1 < 12)
+				{
+					if (grid[i + 1][j - 1] == 9) n++;
+				}
 			}
-			if (grid[i + 1][j + 1] == 9) n++;
+			if (i + 1 < 12 && j + 1 < 12)
+			{
+				if (grid[i + 1][j + 1] == 9) n++;
+			}
 			if (i - 1 >= 0 && j - 1 >= 0)
 			{
 				if (grid[i - 1][j - 1] == 9) n++;
@@ -171,4 +185,26 @@ void DrawBoard::SetFlag(int x, int y)
 		currentGrid[x][y] = 11;
 		numberoFBombs--;
 	}
+}
+ 
+bool DrawBoard::WinCheck()
+{
+	int n=0;
+	for (int i = 0; i < getRows(); i++)
+	{
+		for (int j = 0; j < getColumns(); j++)
+		{
+			if (currentGrid[i][j] != 10)
+			{
+				n++;
+			}
+		}
+	}
+
+	if (numberoFBombs == 0 && n == (getRows() + getColumns()))
+	{
+		cout << "Congratulations you have won!" << endl;
+		return true;
+	}
+	return false;
 }

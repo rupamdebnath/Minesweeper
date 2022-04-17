@@ -30,5 +30,7 @@ class DrawBoard
 
 		void SetFlag(int x, int y);
 
+		bool WinCheck();
+
 };
 

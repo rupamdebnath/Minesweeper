@@ -51,15 +51,16 @@ int main()
                 Y = mposition.y / 32;
                 if (e.key.code == Mouse::Left)
                 {
-                    if (firstclick)
+                    if ( X < 12 && Y < 12 && firstclick)
                     {
                         firstclick = false;
                         board->placeBombs(X, Y);
                         board->placenumbers();
                         bombvalue.setString(to_string(board->getnumberOfBombs()));                        
                     }
-                    else
+                    else if (X < 12 && Y < 12)
                     {
+                        cout << X << " " << Y << endl;
                         board->revealCell(X, Y);
                         //cout << e.mouseButton.x << " " << e.mouseButton.y << endl;
                         if (board->isBombInCell(X, Y))
@@ -70,13 +71,22 @@ int main()
                             text.setPosition(20, 450);
                         }
                     }
+                    
                 }
                 
 
                 if (e.key.code == Mouse::Right)
                 {
                     board->SetFlag(X, Y);
-                }                
+                    if (board->WinCheck())
+                    {
+                        emoji.loadFromFile("images/win.png");
+                        text.setString("Congratulations! You have won!");
+                        text.setFillColor(sf::Color::Blue);
+                        text.setPosition(20, 450);
+                    }
+                }
+                
             }   bombvalue.setString(to_string(board->getnumberOfBombs()));
         }       
         
@@ -90,16 +100,36 @@ int main()
         window.draw(smiley);
         window.draw(text);
         window.display();
-        if (board->isBombInCell(X, Y))
+        if (board->isBombInCell(X, Y) || board->WinCheck())
         {            
-            system("pause");            
-            window.clear();
+            system("pause");
+
+            while (window.pollEvent(e))
+            {
+                if (e.type == Event::Closed)
+                    window.close();
+
+                if (e.type == Event::MouseButtonPressed)
+                {
+                    Vector2f mposition(e.mouseButton.x, e.mouseButton.y);
+
+                    X = mposition.x / 32;
+                    Y = mposition.y / 32;
+                    cout << X << " " << Y << endl;
+                    //if ((X == 7 || X == 8) && (Y == 12) || (Y == 13))
+                    //{
+                    
+                    //}
+                }
+            }
+            //system("pause");
             delete board;
             goto Reset;
         }
-        //cout << "No of bombs randomly placed this round:" << board->getnumberOfBombs() << endl;
-    }
+        //system("cls");
+/*        delete board;
+        goto Reset;    */    
+    }    
     
-    delete board;
     return 0;
 }
