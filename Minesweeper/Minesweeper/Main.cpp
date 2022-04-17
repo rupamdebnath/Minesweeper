@@ -21,7 +21,7 @@ int main()
     text.setScale(0.5,0.5);
     bombText.setFont(font);
     bombText.setFillColor(sf::Color::Black);
-    bombText.setString("Left Click to place bombs\nNo of Bombs remaining:");
+    bombText.setString("Click Once to place bombs\nNo of Bombs remaining:");
     bombText.setPosition(10, 400);
     bombText.setScale(0.5, 0.5);
 
@@ -103,8 +103,8 @@ int main()
         if (board->isBombInCell(X, Y) || board->WinCheck())
         {            
             system("pause");
-
-            while (window.pollEvent(e))
+            bool pause = true;
+            while (window.pollEvent(e) && pause)
             {
                 if (e.type == Event::Closed)
                     window.close();
@@ -115,20 +115,13 @@ int main()
 
                     X = mposition.x / 32;
                     Y = mposition.y / 32;
-                    cout << X << " " << Y << endl;
-                    //if ((X == 7 || X == 8) && (Y == 12) || (Y == 13))
-                    //{
-                    
-                    //}
+                    cout << "Print " << endl;
                 }
             }
             //system("pause");
             delete board;
             goto Reset;
-        }
-        //system("cls");
-/*        delete board;
-        goto Reset;    */    
+        }  
     }    
     
     return 0;
