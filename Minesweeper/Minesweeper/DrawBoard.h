@@ -13,7 +13,10 @@ class DrawBoard
 	Texture t;
 	RenderWindow* Vwindow;
 	int numberoFBombs;	
-	
+	map<map<int, int>, bool> m;
+	map<map<int, int>, bool> ::iterator itr;
+	map<int, int>::iterator ptr;
+	bool revealed[12][12];
 	public:
 		DrawBoard(RenderWindow& Vwindow);
 

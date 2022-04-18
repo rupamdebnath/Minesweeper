@@ -50,24 +50,62 @@ int DrawBoard::getColumns()
 
 void DrawBoard::revealCell(int x, int y)
 {
-	currentGrid[x][y] = grid[x][y];	
+	currentGrid[x][y] = grid[x][y];
+
+	revealed[x][y] = true;
 	if (currentGrid[x][y] == 0)
 	{
-		if (x+1 < 12 && y+1 < 12 && x-1 >= 0 && y-1 >= 0)
+		if (x + 1 < 12)
 		{
 			currentGrid[x + 1][y] = grid[x + 1][y];
-			currentGrid[x][y + 1] = grid[x][y + 1];
-			currentGrid[x - 1][y] = grid[x - 1][y];
-			currentGrid[x - 1][y - 1] = grid[x - 1][y - 1];
-			currentGrid[x - 1][y + 1] = grid[x - 1][y + 1];
-			currentGrid[x][y - 1] = grid[x][y - 1];
-			currentGrid[x + 1][y - 1] = grid[x + 1][y - 1];
-
-			currentGrid[x + 1][y + 1] = grid[x + 1][y + 1];
-
-			currentGrid[x - 1][y - 1] = grid[x - 1][y - 1];
+			if (currentGrid[x + 1][y] == 0 && !revealed[x + 1][y])
+				revealCell(x + 1, y);
 		}
+		if (y + 1 < 12)
+		{
+			currentGrid[x][y + 1] = grid[x][y + 1];
+			if (currentGrid[x][y + 1] == 0 && !revealed[x][y + 1])
+				revealCell(x, y + 1);
+		}
+		if (x - 1 >= 0)
+		{
+			currentGrid[x - 1][y] = grid[x - 1][y];
+			if (currentGrid[x - 1][y] == 0 && !revealed[x - 1][y])
+				revealCell(x - 1, y);
+		}
+		if (x - 1 >= 0 && y - 1 >= 0)
+		{
+			currentGrid[x - 1][y - 1] = grid[x - 1][y - 1];
+			if (currentGrid[x - 1][y - 1] == 0 && !revealed[x - 1][y - 1])
+				revealCell(x - 1, y - 1);
+		}
+		if (x - 1 >= 0 && y + 1 < 12)
+		{
+			currentGrid[x - 1][y + 1] = grid[x - 1][y + 1];
+			if (currentGrid[x - 1][y + 1] == 0 && !revealed[x - 1][y + 1])
+				revealCell(x - 1, y + 1);
+		}
+		if (y - 1 >= 0)
+		{
+			currentGrid[x][y - 1] = grid[x][y - 1];
+			if (currentGrid[x][y - 1] == 0 && !revealed[x][y - 1])
+				revealCell(x, y - 1);
+		}
+		if (x + 1 < 12 && y - 1 >= 0)
+		{
+			currentGrid[x + 1][y - 1] = grid[x + 1][y - 1];
+			if (currentGrid[x + 1][y - 1] == 0 && !revealed[x + 1][y - 1])
+				revealCell(x + 1, y - 1);
+		}
+		if (x + 1 < 12 && y + 1 < 12)
+		{
+			currentGrid[x + 1][y + 1] = grid[x + 1][y + 1];
+			if (currentGrid[x + 1][y + 1] == 0 && !revealed[x + 1][y + 1])
+				revealCell(x + 1, y + 1);
+		}
+				
 	}
+	return;
 }
 
 void DrawBoard::revealAllBombCells()
