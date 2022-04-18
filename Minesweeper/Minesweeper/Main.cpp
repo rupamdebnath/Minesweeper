@@ -33,6 +33,7 @@ int main()
     DrawBoard *board = new DrawBoard(window);
     //window.setKeyRepeatEnabled(false);
     bool firstclick = true;    
+    bool won = false;
     while (window.isOpen())
     {        
         int X=0, Y=0;
@@ -58,9 +59,9 @@ int main()
                         board->placenumbers();
                         bombvalue.setString(to_string(board->getnumberOfBombs()));                        
                     }
-                    else if (X < 12 && Y < 12)
+                    else if (X < 12 && Y < 12 && !firstclick)
                     {
-                        cout << X << " " << Y << endl;
+                        //cout << X << " " << Y << endl;
                         board->revealCell(X, Y);
                         //cout << e.mouseButton.x << " " << e.mouseButton.y << endl;
                         if (board->isBombInCell(X, Y))
@@ -84,6 +85,7 @@ int main()
                         text.setString("Congratulations! You have won!");
                         text.setFillColor(sf::Color::Blue);
                         text.setPosition(20, 450);
+                        won = true;
                     }
                 }
                 
@@ -100,11 +102,11 @@ int main()
         window.draw(smiley);
         window.draw(text);
         window.display();
-        if (board->isBombInCell(X, Y) || board->WinCheck())
-        {            
+        if (board->isBombInCell(X, Y) || won)
+        {             
             system("pause");
             bool pause = true;
-            while (window.pollEvent(e) && pause)
+            while (window.pollEvent(e))
             {
                 if (e.type == Event::Closed)
                     window.close();

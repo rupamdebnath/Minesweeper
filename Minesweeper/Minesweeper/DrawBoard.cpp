@@ -239,7 +239,7 @@ bool DrawBoard::WinCheck()
 		}
 	}
 
-	if (numberoFBombs == 0 && n == (getRows() + getColumns()))
+	if (numberoFBombs == 0)
 	{
 		cout << "Congratulations you have won!" << endl;
 		return true;
